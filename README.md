@@ -12,16 +12,23 @@ GitHub の全リポジトリ（Public / Private）を一覧表示するポート
 - Public / Private バッジ表示
 - レスポンシブデザイン
 
-## 構成
+## Tech Stack
 
-```
-index.html   — ポートフォリオページ（単一HTMLファイル）
-repos.json   — GitHub API から取得したリポジトリデータ
+- React 19 + TypeScript + Vite 7
+- GitHub Pages + GitHub Actions でデプロイ
+
+## 開発
+
+```sh
+npm install
+npm run dev      # 開発サーバー起動
+npm run build    # プロダクションビルド
+npm run lint     # ESLint
 ```
 
 ## データ更新
 
-`repos.json` を再取得して更新する場合:
+`public/repos.json` を再取得して更新する場合:
 
 ```sh
 gh api graphql --paginate -f query='
@@ -41,11 +48,5 @@ query($endCursor: String) {
       }
     }
   }
-}' | jq '[.data.viewer.repositories.nodes[]]' | jq -s 'add' > repos.json
+}' | jq '[.data.viewer.repositories.nodes[]]' | jq -s 'add' > public/repos.json
 ```
-
-## 技術スタック
-
-- HTML / CSS / Vanilla JS（フレームワーク不使用）
-- GitHub Pages でホスティング
-- GitHub GraphQL API でリポジトリ情報を取得
