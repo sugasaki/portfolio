@@ -5,25 +5,35 @@ GitHub の全リポジトリ（Public / Private）を一覧表示するポート
 GitHub Pages でホスティングし、repos.json のデータを元に動的にカード表示する。
 
 ## Tech Stack
-- HTML / CSS / Vanilla JavaScript（フレームワーク不使用）
-- GitHub Pages（ホスティング）
+- React 19 + TypeScript + Vite 7
+- GitHub Pages（ホスティング、GitHub Actions でビルド・デプロイ）
 - GitHub GraphQL API（リポジトリ情報取得）
 
 ## ファイル構成
 ```
-index.html          — ポートフォリオページ（単一HTMLファイル、CSS/JSインライン）
-repos.json          — GitHub API から取得したリポジトリデータ
-README.md           — プロジェクト説明
-.claude/CLAUDE.md   — Claude Code ガイド（本ファイル）
-docs/               — テンプレート由来のドキュメント
-scripts/            — テンプレート由来のスクリプト
-templates/          — テンプレート由来のテンプレート集
+src/
+  main.tsx              — エントリーポイント
+  App.tsx               — ルートコンポーネント
+  index.css             — グローバルスタイル
+  types.ts              — 型定義
+  constants.ts          — 言語カラー等の定数
+  hooks/useRepos.ts     — リポジトリデータ取得・フィルタ・ソートのカスタムフック
+  components/
+    Header.tsx          — ヘッダー（アバター、統計）
+    Controls.tsx        — 検索・フィルタ・ソートUI
+    RepoCard.tsx        — リポジトリカード
+public/
+  repos.json            — GitHub API から取得したリポジトリデータ
+index.html              — HTMLテンプレート
+vite.config.ts          — Vite設定（base: '/portfolio/'）
+.github/workflows/
+  deploy.yml            — GitHub Pages デプロイ
 ```
 
 ## 開発パターン
-- 単一HTMLファイル構成のため、CSS・JSは全て index.html 内にインラインで記述する
-- repos.json は GitHub GraphQL API で取得したデータをそのまま保存する
+- `repos.json` は `public/` 配下に配置し、`fetch()` で読み込む
 - Private リポジトリの名前・説明は表示してよい（自分用の振り返り用途）
+- スタイルは `index.css` に集約（CSS Modules 不使用）
 
 ## 開発規約
 
@@ -61,6 +71,10 @@ templates/          — テンプレート由来のテンプレート集
 - レビュー指摘への修正をpushした後は、**必ず以下の2つを行う**:
   1. PRコメント欄に対応内容のサマリーを投稿する
   2. 対応済みのレビュースレッドをResolveする（GraphQL API `resolveReviewThread` を使用）
+
+### ビルド・lint確認
+- 実装後は必ず `npm run build` でエラーがないことを確認する
+- **push前に必ず `npm run lint` を実行し、エラーが0件であることを確認する**
 
 ### CLIツールの注意点
 - `gh pr checks` はチェック失敗時に終了コード1を返す
