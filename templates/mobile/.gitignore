@@ -1,0 +1,9 @@
+node_modules/
+.expo/
+dist/
+.env.local
+.env.*.local
+.DS_Store
+.claude/worktrees/
+ios/
+android/
