@@ -1,53 +1,51 @@
-# Claude Code プロジェクトテンプレート
+# sugasaki Portfolio
 
-Claude Code を活用した開発プロジェクトのテンプレート集。
-開発規約・CI/CD・Copilot Code Review 設定を含む。
+GitHub の全リポジトリ（Public / Private）を一覧表示するポートフォリオサイト。
 
-## テンプレート
+**https://sugasaki.github.io/portfolio/**
 
-| テンプレート | Tech Stack | 説明 |
-|---|---|---|
-| [Web](templates/web/) | React + TypeScript + Vite | Webアプリケーション用 |
-| [Mobile](templates/mobile/) | React Native + Expo | モバイルアプリケーション用 |
+## 機能
 
-## 使い方
+- 言語別フィルタ（TypeScript, JavaScript, C#, Kotlin 等）
+- リポジトリ名・説明文の検索（`/` キーでフォーカス）
+- 更新日順ソート（昇順・降順切替）
+- Public / Private バッジ表示
+- レスポンシブデザイン
 
-### 1. テンプレートファイルをコピー
+## 構成
 
-```sh
-# Web プロジェクトの場合
-./scripts/setup.sh web /path/to/your-project
-
-# Mobile プロジェクトの場合
-./scripts/setup.sh mobile /path/to/your-project
+```
+index.html   — ポートフォリオページ（単一HTMLファイル）
+repos.json   — GitHub API から取得したリポジトリデータ
 ```
 
-### 2. CLAUDE.md をカスタマイズ
+## データ更新
 
-コピーされた `.claude/CLAUDE.md` を開き、以下を自分のプロジェクトに合わせて編集:
-- プロジェクト概要
-- Tech Stack の詳細
-- ファイル構成
-- プロジェクト固有の開発パターン
-
-### 3. Copilot Code Review を有効化
-
-[設定ガイド](docs/copilot-code-review-setup.md) を参照。
+`repos.json` を再取得して更新する場合:
 
 ```sh
-# Ruleset で自動レビューを有効化
-gh api --method POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  /repos/{owner}/{repo}/rulesets \
-  --input ruleset.json
+gh api graphql --paginate -f query='
+query($endCursor: String) {
+  viewer {
+    repositories(first: 100, after: $endCursor, ownerAffiliations: OWNER, orderBy: {field: UPDATED_AT, direction: DESC}) {
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        name
+        description
+        url
+        isPrivate
+        primaryLanguage { name }
+        stargazerCount
+        updatedAt
+        repositoryTopics(first: 10) { nodes { topic { name } } }
+      }
+    }
+  }
+}' | jq '[.data.viewer.repositories.nodes[]]' | jq -s 'add' > repos.json
 ```
 
-### 4. CI ワークフローを確認
+## 技術スタック
 
-`.github/workflows/ci.yml` がプロジェクトのビルド・テストコマンドと一致していることを確認。
-
-## ドキュメント
-
-- [開発規約](docs/development-conventions.md) — ブランチ戦略、コミットメッセージ、PR運用、レビュー対応
-- [Copilot Code Review 設定ガイド](docs/copilot-code-review-setup.md) — gh CLI での設定方法
+- HTML / CSS / Vanilla JS（フレームワーク不使用）
+- GitHub Pages でホスティング
+- GitHub GraphQL API でリポジトリ情報を取得
