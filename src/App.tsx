@@ -7,6 +7,7 @@ export default function App() {
   const {
     repos,
     loading,
+    generatedAt,
     stats,
     langCounts,
     searchQuery,
@@ -62,8 +63,8 @@ export default function App() {
           Built with data from{' '}
           <a href="https://github.com/sugasaki" target="_blank" rel="noopener">
             github.com/sugasaki
-          </a>{' '}
-          — Last updated {new Date().toLocaleDateString('ja-JP')}
+          </a>
+          {generatedAt && ` — Last updated ${new Date(generatedAt).toLocaleDateString('ja-JP')}`}
         </p>
       </footer>
     </>
