@@ -1,11 +1,13 @@
 import { useRepos } from './hooks/useRepos'
 import { Header } from './components/Header'
+import { Featured } from './components/Featured'
 import { Controls } from './components/Controls'
 import { RepoCard } from './components/RepoCard'
 
 export default function App() {
   const {
     repos,
+    featured,
     loading,
     generatedAt,
     stats,
@@ -24,6 +26,11 @@ export default function App() {
     <>
       <div className="ambient" />
       <Header stats={stats} />
+      <Featured entries={featured} />
+      <div className="section-head archive-head">
+        <h2 className="section-title">All Repositories</h2>
+        <p className="section-note">GitHub 上の全リポジトリ。振り返りと検索のための一覧</p>
+      </div>
       <Controls
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
