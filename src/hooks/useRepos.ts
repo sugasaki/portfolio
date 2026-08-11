@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import type { RawRepo, Repo, ReposFile, VisibilityFilter, SortOrder } from '../types'
+import { FEATURED } from '../data/featured'
+import type { FeaturedEntry } from '../components/Featured'
 
 function transformRepo(raw: RawRepo): Repo {
   return {
@@ -42,6 +44,21 @@ export function useRepos() {
         setLoading(false)
       })
   }, [])
+
+  // 手書きのキュレーション情報に、repos.json 側のメタ情報を結合する。
+  // repos.json に存在しない repo 名（改名・削除など）は静かに落とさず警告する。
+  const featured = useMemo<FeaturedEntry[]>(() => {
+    if (repos.length === 0) return []
+    const byName = new Map(repos.map((r) => [r.name, r]))
+    return FEATURED.flatMap((f) => {
+      const meta = byName.get(f.repo)
+      if (!meta) {
+        console.warn(`featured.ts の "${f.repo}" が repos.json に見つかりません`)
+        return []
+      }
+      return [{ ...f, meta }]
+    })
+  }, [repos])
 
   const langCounts = useMemo(() => {
     const counts: Record<string, number> = {}
@@ -95,6 +112,7 @@ export function useRepos() {
 
   return {
     repos: filtered,
+    featured,
     loading,
     generatedAt,
     stats,
