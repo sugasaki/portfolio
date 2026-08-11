@@ -28,25 +28,12 @@ npm run lint     # ESLint
 
 ## データ更新
 
-`public/repos.json` を再取得して更新する場合:
+`public/repos.json` は GitHub GraphQL API から取得した静的データ。再取得するには:
 
 ```sh
-gh api graphql --paginate -f query='
-query($endCursor: String) {
-  viewer {
-    repositories(first: 100, after: $endCursor, ownerAffiliations: OWNER, orderBy: {field: UPDATED_AT, direction: DESC}) {
-      pageInfo { hasNextPage endCursor }
-      nodes {
-        name
-        description
-        url
-        isPrivate
-        primaryLanguage { name }
-        stargazerCount
-        updatedAt
-        repositoryTopics(first: 10) { nodes { topic { name } } }
-      }
-    }
-  }
-}' | jq '[.data.viewer.repositories.nodes[]]' | jq -s 'add' > public/repos.json
+./scripts/fetch-repos.sh
 ```
+
+取得日時は `generatedAt` としてファイルに記録され、サイトのフッターに表示される（実行時の日付ではなくデータの日付）。
+
+このリポジトリは Public のため、**生成物に含まれる Private リポジトリの名前・説明は commit した時点で恒久的に公開される**。スクリプトは新たに公開対象へ入る Private リポジトリ名を最後に一覧表示するので、commit 前に確認すること。

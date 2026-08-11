@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import type { RawRepo, Repo, VisibilityFilter, SortOrder } from '../types'
+import type { RawRepo, Repo, ReposFile, VisibilityFilter, SortOrder } from '../types'
 
 function transformRepo(raw: RawRepo): Repo {
   return {
@@ -16,6 +16,7 @@ function transformRepo(raw: RawRepo): Repo {
 
 export function useRepos() {
   const [repos, setRepos] = useState<Repo[]>([])
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [activeLang, setActiveLang] = useState('all')
@@ -24,11 +25,20 @@ export function useRepos() {
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}repos.json`)
-      .then((r) => r.json())
-      .then((data: RawRepo[]) => {
-        setRepos(data.map(transformRepo).sort((a, b) =>
+      .then((r) => {
+        if (!r.ok) throw new Error(`repos.json の取得に失敗しました (${r.status})`)
+        return r.json()
+      })
+      .then((data: ReposFile) => {
+        setRepos(data.repos.map(transformRepo).sort((a, b) =>
           new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         ))
+        setGeneratedAt(data.generatedAt)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+      .finally(() => {
         setLoading(false)
       })
   }, [])
@@ -86,6 +96,7 @@ export function useRepos() {
   return {
     repos: filtered,
     loading,
+    generatedAt,
     stats,
     langCounts,
     searchQuery,

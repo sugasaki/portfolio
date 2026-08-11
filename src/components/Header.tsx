@@ -10,27 +10,32 @@ interface Props {
 }
 
 export function Header({ stats }: Props) {
-  const [avatarUrl, setAvatarUrl] = useState('')
+  // 未認証の api.github.com は 60req/h/IP で制限され、超過時も JSON ボディ付きの
+  // 403 が返る（fetch は reject しない）。アバターは常に出したいので、
+  // レート制限を受けない固定 URL を既定にし、API はプロフィール補強のみに使う。
   const [bio, setBio] = useState('Software Engineer')
 
   useEffect(() => {
     fetch('https://api.github.com/users/sugasaki')
-      .then((r) => r.json())
+      .then((r) => (r.ok ? r.json() : null))
       .then((user) => {
-        setAvatarUrl(user.avatar_url)
-        if (user.bio) setBio(user.bio)
+        if (user?.bio) setBio(user.bio)
       })
       .catch(() => {
-        setAvatarUrl('https://github.com/sugasaki.png')
+        /* プロフィール取得は任意。失敗時は既定値のまま */
       })
   }, [])
 
   return (
     <header className="header">
       <div className="header-top">
-        {avatarUrl && (
-          <img className="avatar" src={avatarUrl} alt="sugasaki" width={72} height={72} />
-        )}
+        <img
+          className="avatar"
+          src="https://github.com/sugasaki.png"
+          alt="sugasaki"
+          width={72}
+          height={72}
+        />
         <div className="title-block">
           <h1>
             suga<span className="accent">saki</span>

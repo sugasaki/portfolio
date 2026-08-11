@@ -1,3 +1,9 @@
+export interface ReposFile {
+  /** データ取得日時 (ISO8601, UTC)。フッターの「最終更新」表示に使う */
+  generatedAt: string
+  repos: RawRepo[]
+}
+
 export interface RawRepo {
   name: string
   description: string | null
