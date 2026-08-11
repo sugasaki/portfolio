@@ -1,20 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
-import type { RawRepo, Repo, ReposFile, VisibilityFilter, SortOrder } from '../types'
+import type { Repo, ReposFile, VisibilityFilter, SortOrder } from '../types'
 import { FEATURED } from '../data/featured'
-import type { FeaturedEntry } from '../components/Featured'
-
-function transformRepo(raw: RawRepo): Repo {
-  return {
-    name: raw.name,
-    description: raw.description,
-    url: raw.url,
-    isPrivate: raw.isPrivate,
-    language: raw.primaryLanguage?.name ?? 'Other',
-    stars: raw.stargazerCount,
-    updatedAt: raw.updatedAt,
-    topics: raw.repositoryTopics.nodes.map((n) => n.topic.name),
-  }
-}
+import { transformRepo, groupByYear, joinFeatured } from '../lib/repos'
+import type { FeaturedEntry } from '../lib/repos'
 
 export function useRepos() {
   const [repos, setRepos] = useState<Repo[]>([])
@@ -45,19 +33,11 @@ export function useRepos() {
       })
   }, [])
 
-  // 手書きのキュレーション情報に、repos.json 側のメタ情報を結合する。
-  // repos.json に存在しない repo 名（改名・削除など）は静かに落とさず警告する。
   const featured = useMemo<FeaturedEntry[]>(() => {
     if (repos.length === 0) return []
-    const byName = new Map(repos.map((r) => [r.name, r]))
-    return FEATURED.flatMap((f) => {
-      const meta = byName.get(f.repo)
-      if (!meta) {
-        console.warn(`featured.ts の "${f.repo}" が repos.json に見つかりません`)
-        return []
-      }
-      return [{ ...f, meta }]
-    })
+    return joinFeatured(FEATURED, repos, (name) =>
+      console.warn(`featured.ts の "${name}" が repos.json に見つかりません`),
+    )
   }, [repos])
 
   const langCounts = useMemo(() => {
@@ -100,21 +80,7 @@ export function useRepos() {
     return result
   }, [repos, activeLang, visibility, searchQuery, sortOrder])
 
-  // 一覧を更新年で区切る。並びは filtered の順序をそのまま保つので、
-  // 昇順・降順どちらでも年の順序が破綻しない。
-  const groups = useMemo(() => {
-    const result: { year: string; repos: Repo[] }[] = []
-    filtered.forEach((repo) => {
-      const year = repo.updatedAt.slice(0, 4)
-      const last = result[result.length - 1]
-      if (last?.year === year) {
-        last.repos.push(repo)
-      } else {
-        result.push({ year, repos: [repo] })
-      }
-    })
-    return result
-  }, [filtered])
+  const groups = useMemo(() => groupByYear(filtered), [filtered])
 
   const stats = useMemo(
     () => ({
