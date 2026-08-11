@@ -100,6 +100,22 @@ export function useRepos() {
     return result
   }, [repos, activeLang, visibility, searchQuery, sortOrder])
 
+  // 一覧を更新年で区切る。並びは filtered の順序をそのまま保つので、
+  // 昇順・降順どちらでも年の順序が破綻しない。
+  const groups = useMemo(() => {
+    const result: { year: string; repos: Repo[] }[] = []
+    filtered.forEach((repo) => {
+      const year = repo.updatedAt.slice(0, 4)
+      const last = result[result.length - 1]
+      if (last?.year === year) {
+        last.repos.push(repo)
+      } else {
+        result.push({ year, repos: [repo] })
+      }
+    })
+    return result
+  }, [filtered])
+
   const stats = useMemo(
     () => ({
       total: repos.length,
@@ -112,6 +128,7 @@ export function useRepos() {
 
   return {
     repos: filtered,
+    groups,
     featured,
     loading,
     generatedAt,
