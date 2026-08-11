@@ -1,0 +1,135 @@
+<!doctype html>
+<!--
+  OG 画像 (public/og.png) の生成元。1200×630 で描画される。
+  再生成は ./scripts/generate-og.sh を実行する。
+  サイト本体 (src/index.css) と同じトークンを手で写しているので、
+  配色やフォントを変えたときはこちらも合わせること。
+-->
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;600;700&family=Playfair+Display:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --bg: #0a0a0b;
+        --text: #e8e6e3;
+        --text-dim: #7a7872;
+        --accent: #d4a853;
+        --border: #222225;
+        --mono: 'DM Mono', Menlo, monospace;
+        --sans: 'Noto Sans JP', sans-serif;
+        --display: 'Playfair Display', serif;
+      }
+
+      body {
+        width: 1200px;
+        height: 630px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 90px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* サイト本体と同じ、上部から差す暖色のアンビエント */
+      body::before {
+        content: '';
+        position: absolute;
+        top: -55%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        height: 110%;
+        background: radial-gradient(ellipse at center, rgba(212, 168, 83, 0.10) 0%, transparent 70%);
+      }
+
+      /* 本体と同じ粒状のノイズ */
+      body::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 256px;
+      }
+
+      .inner { position: relative; z-index: 1; }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 20px;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 26px;
+      }
+
+      h1 {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 128px;
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+
+      h1 .accent { color: var(--accent); }
+
+      .rule {
+        width: 96px;
+        height: 2px;
+        background: var(--accent);
+        margin: 34px 0 30px;
+      }
+
+      .lead {
+        font-size: 30px;
+        line-height: 1.5;
+        color: var(--text);
+        font-weight: 300;
+      }
+
+      .lead strong { color: var(--accent); font-weight: 600; }
+
+      .foot {
+        position: absolute;
+        left: 90px;
+        right: 90px;
+        bottom: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 26px;
+        border-top: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 21px;
+        color: var(--text-dim);
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="inner">
+      <p class="eyebrow">Portfolio</p>
+      <h1>suga<span class="accent">saki</span></h1>
+      <div class="rule"></div>
+      <p class="lead">
+        作ってきたものの一覧と、<strong>手を動かした期間が長いプロジェクト</strong>の紹介
+      </p>
+    </div>
+    <div class="foot">
+      <span>sugasaki.github.io/portfolio</span>
+      <span>github.com/sugasaki</span>
+    </div>
+  </body>
+</html>

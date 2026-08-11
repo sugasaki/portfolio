@@ -47,6 +47,18 @@ npm run lint     # ESLint
 
 Private リポジトリはコードを公開しないためリンクを張らないが、画面（スクリーンショット）は掲載してよい。公開中のデモがある場合は `liveUrl` を指定するとタイトルがリンクになる。
 
+## OG 画像の再生成
+
+SNS 共有時のサムネイル `public/og.png`（1200×630）は `scripts/og-image.html` を描画して作る。文言や配色を変えたら:
+
+```sh
+./scripts/generate-og.sh
+```
+
+Chrome のパスが標準と違う場合は `CHROME=/path/to/chrome ./scripts/generate-og.sh`。Google Fonts をネットワーク越しに読むため、**生成後は画像を目視で確認する**こと。
+
+`scripts/og-image.html` は `src/index.css` のトークンを手で写しているので、サイト側の配色・フォントを変えたときは合わせて更新する。
+
 ## データ更新
 
 `public/repos.json` は GitHub GraphQL API から取得した静的データ。再取得するには:
