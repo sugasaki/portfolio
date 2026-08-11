@@ -459,6 +459,39 @@ h1 {
   margin-left: auto;
 }
 
+/* ─── YEAR SEPARATOR ─── */
+.year-row {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--bg);
+}
+
+.year-label {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
+.year-count {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.year-count::before { content: '/ '; }
+
+/* 年ラベルの右側を罫線で埋め、区切りであることを示す */
+.year-row::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
 /* ─── GRID ─── */
 .grid-wrapper {
   position: relative;

@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { useRepos } from './hooks/useRepos'
 import { Header } from './components/Header'
 import { Featured } from './components/Featured'
@@ -7,6 +8,7 @@ import { RepoCard } from './components/RepoCard'
 export default function App() {
   const {
     repos,
+    groups,
     featured,
     loading,
     generatedAt,
@@ -59,8 +61,16 @@ export default function App() {
               <p>No repositories match the current filters.</p>
             </div>
           ) : (
-            repos.map((repo, i) => (
-              <RepoCard key={repo.name} repo={repo} index={i} />
+            groups.map((group, gi) => (
+              <Fragment key={group.year}>
+                <div className="year-row">
+                  <span className="year-label">{group.year}</span>
+                  <span className="year-count">{group.repos.length}</span>
+                </div>
+                {group.repos.map((repo, i) => (
+                  <RepoCard key={repo.name} repo={repo} index={gi === 0 ? i : 0} />
+                ))}
+              </Fragment>
             ))
           )}
         </div>
