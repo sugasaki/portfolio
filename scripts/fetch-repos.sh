@@ -19,9 +19,12 @@ command -v gh >/dev/null || { echo "gh CLI が必要です" >&2; exit 1; }
 command -v jq >/dev/null || { echo "jq が必要です" >&2; exit 1; }
 gh auth status >/dev/null
 
-# 差分表示用に、更新前の Private リポジトリ名を控えておく
+# 差分表示用に、更新前に公開済みだったリポジトリ名を控えておく。
+# 判定は「前回のファイルに名前があったか」で行う。前回 Private だったかで比較すると、
+# Public → Private に変わっただけの(名前は既に公開済みの)リポジトリを
+# 新規公開として誤報告してしまう。
 if [ -f "$OUT" ]; then
-  jq -r '(if type == "array" then . else .repos end)[] | select(.isPrivate) | .name' "$OUT" | sort > "$PREV"
+  jq -r '(if type == "array" then . else .repos end)[] | .name' "$OUT" | sort > "$PREV"
 else
   : > "$PREV"
 fi
@@ -55,7 +58,8 @@ mv "$NEW" "$OUT"
 private_count=$(jq '[.repos[] | select(.isPrivate)] | length' "$OUT")
 echo "完了: 全 ${count} 件（うち Private ${private_count} 件）を $OUT に書き出しました"
 
-# 今回から新しく公開される Private リポジトリ名を提示する
+# 今回から新しく名前が公開される Private リポジトリを提示する
+# (今回 Private かつ、前回のファイルに名前が無かったもの)
 jq -r '.repos[] | select(.isPrivate) | .name' "$OUT" | sort > "$PREV.new"
 if added=$(comm -13 "$PREV" "$PREV.new") && [ -n "$added" ]; then
   echo

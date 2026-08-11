@@ -1,11 +1,5 @@
-import type { Repo } from '../types'
-import type { FeaturedProject } from '../data/featured'
+import type { FeaturedEntry } from '../lib/repos'
 import { LANG_COLORS } from '../constants'
-
-export interface FeaturedEntry extends FeaturedProject {
-  /** repos.json 側から結合したメタ情報 */
-  meta: Repo
-}
 
 interface Props {
   entries: FeaturedEntry[]
