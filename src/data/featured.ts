@@ -48,6 +48,7 @@ export const FEATURED: FeaturedProject[] = [
     story:
       '汎用の ToDo ではなく「自分が主催するイベントの準備」に特化。イベント種別ごとにタスクと相対期日を持つテンプレートを定義し、本番日を入れると期日が自動で逆算される。準備中に気づいたタスクをテンプレートへ還元できるので、回を重ねるほどテンプレートが育つのが中心的な価値。',
     tech: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS 4', 'Supabase'],
+    shot: 'dandori.png',
   },
   {
     repo: 'kml-to-gpx',
@@ -56,6 +57,7 @@ export const FEATURED: FeaturedProject[] = [
     story:
       '地図サービスから書き出した KML/KMZ には右折・左折といった案内ポイントが大量に混ざる。それを整理してチェックポイントだけを残し、GPX 1.1 として書き出す。ファイルはサーバーへ送らずブラウザ内だけで処理し、変換結果は地図でプレビューできる。',
     tech: ['TypeScript', 'React', 'MapLibre GL'],
+    shot: 'kml-to-gpx.png',
   },
   {
     repo: 'gpx2geojson-wasm',

@@ -344,9 +344,9 @@ h1 {
 
 .shot img { object-fit: cover; object-position: top center; }
 
-/* 画像が無い間は面積を抑える。実画像と同じ高さを確保すると空白が目立つため */
-.shot-empty { padding-top: 34%; }
-.featured-lead .shot-empty { width: 32%; padding-top: 0; }
+/* 代替パネルも実画像と同じ比率にする。混在したときに行内で高さが揃わないと
+   崩れて見えるため、面積の無駄より整列を優先する */
+.featured-lead .shot-empty { width: 38%; padding-top: 0; }
 
 /* スクリーンショット未設定でも破綻しないよう、言語色から作る代替表示 */
 .shot-fallback {
@@ -676,7 +676,6 @@ footer a:hover { color: var(--accent); }
   .featured-grid { grid-template-columns: 1fr; padding: 0 1.25rem; gap: 1.25rem; }
   .featured-lead { flex-direction: column; }
   .featured-lead .shot { width: 100%; padding-top: 56%; }
-  .featured-lead .shot-empty { width: 100%; padding-top: 34%; }
   .featured-lead .featured-body { padding: 1.5rem; }
   .featured-lead .featured-title { font-size: 1.4rem; }
 }
