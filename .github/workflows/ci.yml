@@ -19,3 +19,5 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm test -- --run
+      # 改名で注目プロジェクトが画面から静かに消えるのを防ぐ
+      - run: npm run check:featured

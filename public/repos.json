@@ -1,6 +1,48 @@
 {
-  "generatedAt": "2026-08-11T14:43:49Z",
+  "generatedAt": "2026-08-12T11:51:06Z",
   "repos": [
+    {
+      "name": "memorybar",
+      "description": null,
+      "url": "https://github.com/sugasaki/memorybar",
+      "isPrivate": true,
+      "primaryLanguage": {
+        "name": "Swift"
+      },
+      "stargazerCount": 0,
+      "updatedAt": "2026-08-12T10:45:41Z",
+      "repositoryTopics": {
+        "nodes": []
+      }
+    },
+    {
+      "name": "wan-navi-v3",
+      "description": "わんなび 刷新版(刷新計画2026)— Expo + MapLibre、ゼロベース・ライトスタート",
+      "url": "https://github.com/sugasaki/wan-navi-v3",
+      "isPrivate": true,
+      "primaryLanguage": {
+        "name": "TypeScript"
+      },
+      "stargazerCount": 0,
+      "updatedAt": "2026-08-12T10:22:36Z",
+      "repositoryTopics": {
+        "nodes": []
+      }
+    },
+    {
+      "name": "obsidian-mcp-server",
+      "description": "Remote MCP server for writing Markdown to an Obsidian vault in OneDrive",
+      "url": "https://github.com/sugasaki/obsidian-mcp-server",
+      "isPrivate": true,
+      "primaryLanguage": {
+        "name": "TypeScript"
+      },
+      "stargazerCount": 0,
+      "updatedAt": "2026-08-12T01:36:23Z",
+      "repositoryTopics": {
+        "nodes": []
+      }
+    },
     {
       "name": "portfolio",
       "description": null,
@@ -10,21 +52,7 @@
         "name": "TypeScript"
       },
       "stargazerCount": 0,
-      "updatedAt": "2026-08-11T14:43:34Z",
-      "repositoryTopics": {
-        "nodes": []
-      }
-    },
-    {
-      "name": "truemem",
-      "description": null,
-      "url": "https://github.com/sugasaki/truemem",
-      "isPrivate": true,
-      "primaryLanguage": {
-        "name": "Swift"
-      },
-      "stargazerCount": 0,
-      "updatedAt": "2026-08-11T14:41:55Z",
+      "updatedAt": "2026-08-11T23:26:04Z",
       "repositoryTopics": {
         "nodes": []
       }
@@ -38,7 +66,7 @@
         "name": "TypeScript"
       },
       "stargazerCount": 0,
-      "updatedAt": "2026-08-11T14:41:36Z",
+      "updatedAt": "2026-08-11T23:23:09Z",
       "repositoryTopics": {
         "nodes": []
       }
@@ -177,18 +205,6 @@
       },
       "stargazerCount": 0,
       "updatedAt": "2026-07-28T07:53:17Z",
-      "repositoryTopics": {
-        "nodes": []
-      }
-    },
-    {
-      "name": "wan-navi-v3",
-      "description": "わんなび 刷新版(刷新計画2026)— Expo + MapLibre、ゼロベース・ライトスタート",
-      "url": "https://github.com/sugasaki/wan-navi-v3",
-      "isPrivate": true,
-      "primaryLanguage": null,
-      "stargazerCount": 0,
-      "updatedAt": "2026-07-24T11:04:25Z",
       "repositoryTopics": {
         "nodes": []
       }
