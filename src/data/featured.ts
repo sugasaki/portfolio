@@ -26,11 +26,11 @@ export interface FeaturedProject {
 
 export const FEATURED: FeaturedProject[] = [
   {
-    repo: 'truemem',
-    title: 'TrueMem',
+    repo: 'memorybar',
+    title: 'MemoryBar',
     tagline: 'アクティビティモニタと1バイトも食い違わないメモリモニタ',
     story:
-      'メニューバー常駐のメモリ表示アプリは数あるが、どれもアクティビティモニタと値がずれる。同じ Mach API（host_statistics64）を同じ計算式で読み、実測で検証しながら「本当の値」を出すことに徹した。speculative ページの二重計上など、計算式は実機での突き合わせを重ねて確定させている。',
+      'メニューバー常駐のメモリ表示アプリは数あるが、どれもアクティビティモニタと値がずれる。同じ Mach API（host_statistics64）を同じ計算式で読み、実測で検証しながら「本当の値」を出すことに徹した。残容量・使用量・使用率の切替、内訳とメモリを食っているアプリの表示、常時出しておけるフローティングウィンドウを備える。外部依存なしで常駐時 CPU 約1%。',
     tech: ['Swift 6', 'SwiftUI', 'MenuBarExtra', 'Mach API', 'SPM'],
   },
   {

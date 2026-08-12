@@ -36,7 +36,7 @@ npm run lint     # ESLint
 
 `src/data/featured.ts` が正本。掲載順がそのまま表示順になり、**先頭の1件は大きく表示される**。
 
-`repo` は `public/repos.json` の `name` と一致させる（一致しない場合は掲載されず、開発者コンソールに警告が出る）。言語・更新日・Public/Private バッジは `repos.json` 側の値が自動で使われるので、手で書くのは名前・説明・技術スタックだけでよい。
+`repo` は `public/repos.json` の `name` と一致させる。**一致しないと画面から消える**ため、CI で `npm run check:featured` が検査して落とす（リポジトリを改名したときは `featured.ts` の `repo` も更新すること）。言語・更新日・Public/Private バッジは `repos.json` 側の値が自動で使われるので、手で書くのは名前・説明・技術スタックだけでよい。
 
 ### スクリーンショットの追加
 
