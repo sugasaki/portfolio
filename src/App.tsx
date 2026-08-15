@@ -2,8 +2,10 @@ import { Fragment } from 'react'
 import { useRepos } from './hooks/useRepos'
 import { Header } from './components/Header'
 import { Featured } from './components/Featured'
+import { BuildLog } from './components/BuildLog'
 import { Controls } from './components/Controls'
 import { RepoCard } from './components/RepoCard'
+import { BUILD_LOG } from './data/buildLog'
 
 export default function App() {
   const {
@@ -29,6 +31,7 @@ export default function App() {
       <div className="ambient" />
       <Header stats={stats} />
       <Featured entries={featured} />
+      <BuildLog entries={BUILD_LOG} />
       <div className="section-head archive-head">
         <h2 className="section-title">All Repositories</h2>
         <p className="section-note">GitHub 上の全リポジトリ。振り返りと検索のための一覧</p>
